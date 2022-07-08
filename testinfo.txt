@@ -1,0 +1,21 @@
+single_station1 : only single station matches
+col_1: colons wrong for source and dest
+col_2: colons wrong for source dest
+col_3: colons wrong for time
+big: line over 4096 characters
+break: inappropriate breaks in entries
+noarg_1: no source/dest
+noarg_2: no time
+badtime_1: characters at end of given time
+badtime_2: characters in middle of given time
+badtime_3: characters before given time
+badtime_4: bad hour 24 hr time
+badtime_5: bad minute 24 hr time
+badtime_6: bad seconds 24 hr time
+unsorted: unsorted timetable
+notrain: no available train
+sametime: train is at same time
+nextday: no trains available for the rest of the day
+multstations: multiple stations available
+empty: file empty
+breaks: newlines in timetable
