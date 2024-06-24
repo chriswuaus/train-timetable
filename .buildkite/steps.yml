@@ -19,23 +19,27 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      # Set up any necessary environment variables or configurations
-      # For example, set AWS credentials or other required variables
+      if [ ! -d "$FOLDER" ]; then
+        echo "Error: $FOLDER does not exist or is not a directory."
+        exit 1
+      fi
 
-      # Check if there are changes in the repository
-      if ! git diff --quiet HEAD~1 HEAD; then
-        # List all files changed between HEAD~1 and HEAD
-        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-
-        # Loop through each changed file and print its content
-        for file in $CHANGED_FILES; do
-          echo "Changed file: $file"
-          echo "-----------------"
-          cat $file  # Print the content of the changed file
-          echo ""
-        done
+      # Check for changes in the 'tests' folder
+      if ! git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
+        echo "Changes detected in $FOLDER:"
+        # Print the list of changed files
+        git diff --name-only HEAD~1 HEAD -- "$FOLDER"
+        # Optionally, print the diff content for each changed file
+        # for file in $(git diff --name-only HEAD~1 HEAD -- "$FOLDER"); do
+        #   echo "------ $file ------"
+        #   git show HEAD:$file
+        #   echo ""
+        # done
+        # Exit with error to prevent further execution if needed
+        exit 1
       else
-        echo "No changes in the repository."
+        echo "No changes in $FOLDER"
+        exit 0
       fi
 
   - label: ":pipeline: Echo provided environment variable"
