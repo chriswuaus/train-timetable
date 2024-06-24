@@ -1,6 +1,11 @@
 steps:
-  - label: ":pipeline: Step 1"
-    command: "echo 'This is step 1'"
-
-  - label: ":pipeline: Step 2"
-    command: "echo 'This is step 2'"
+  - label: ":pipeline: Echo provided environment variable"
+    command: |
+      if [ -z "$MY_VARIABLE" ]; then
+        echo "Error: MY_VARIABLE is not provided."
+        exit 1
+      else
+        echo "The value of MY_VARIABLE is: $MY_VARIABLE"
+      fi
+    env:
+      MY_VARIABLE: "${MY_VARIABLE}"
