@@ -22,14 +22,12 @@ steps:
        if [ ! -d "tests" ]; then
         echo "Error: tests does not exist or is not a directory."
         exit 1
-      fi
 
       if git diff --quiet HEAD~1 HEAD -- "tests"; then
         echo "No changes in $FOLDER"
         exit 0
       else
         echo "Changes detected in tests"
-
       fi 
 
   - label: ":pipeline: Echo provided environment variable"
