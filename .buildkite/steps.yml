@@ -19,8 +19,9 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      ls
       FOLDER="tests"  # Replace this with your actual folder path
+      echo "FOLDER is set to: $FOLDER"
+
       if [ ! -d "$FOLDER" ]; then
         echo "Error: $FOLDER does not exist or is not a directory."
         exit 1
