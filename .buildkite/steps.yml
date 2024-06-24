@@ -25,8 +25,8 @@ steps:
         exit 1
       fi
 
-      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      if git diff --quiet "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests"; then
+      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
+      if git diff --quiet "main...${CURRENT_BRANCH" -- "tests"; then
         echo "No changes in tests between $(git rev-parse --abbrev-ref HEAD) and main"
         exit 0
       else
