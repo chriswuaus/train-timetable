@@ -1,7 +1,12 @@
 steps:
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER=".buildkite"
+      FOLDER=".buildkite" # Replace this with your actual folder path
+      if [ -z "$FOLDER" ]; then
+        echo "Error: FOLDER is not set."
+        exit 1
+      fi
+
       if git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
         echo "No changes in $FOLDER"
         exit 0
