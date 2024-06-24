@@ -4,12 +4,12 @@ steps:
       DIRECTORY_PATH=${BUILDKITE_BUILD_CHECKOUT_PATH}
       REPO_URL=${BUILDKITE_REPO}
       
-      if [ -d "$DIRECTORY_PATH" ]; then
-        echo "Directory '$DIRECTORY_PATH' already exists."
+      if [ -d ${BUILDKITE_BUILD_CHECKOUT_PATH} ]; then
+        echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} already exists."
       else
-        echo "Directory '$DIRECTORY_PATH' does not exist. Cloning repository..."
-        git clone "$REPO_URL" "$DIRECTORY_PATH"
-        cd "$DIRECTORY_PATH"
+        echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} does not exist. Cloning repository..."
+        git clone "${BUILDKITE_REPO} ${BUILDKITE_BUILD_CHECKOUT_PATH}
+        cd ${BUILDKITE_BUILD_CHECKOUT_PATH}
         LATEST_COMMIT=$(git rev-parse HEAD)  # Get the latest commit hash
         git checkout "$LATEST_COMMIT"
       fi
