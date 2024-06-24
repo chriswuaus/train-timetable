@@ -1,6 +1,16 @@
 steps:
-  - label: ":pipeline: Checkout repository"
-    command: "git clone $BUILDKITE_REPO $BUILDKITE_BUILD_CHECKOUT_PATH && cd $BUILDKITE_BUILD_CHECKOUT_PATH && git checkout $BUILDKITE_COMMIT"
+  - label: ":pipeline: Check if directory exists"
+    command: |
+      DIRECTORY_PATH="/opt/homebrew/var/buildkite-agent/builds/Chriss-MacBook-Pro-2-local-1/chriswu-test/test-buildkite"
+      if [ -d "$DIRECTORY_PATH" ]; then
+        echo "Directory '$DIRECTORY_PATH' already exists."
+      else
+        echo "Directory '$DIRECTORY_PATH' does not exist. Cloning repository..."
+        git clone git@github.com:chriswuaus/train-timetable.git "$DIRECTORY_PATH"
+        cd "$DIRECTORY_PATH"
+        LATEST_COMMIT=$(git rev-parse HEAD)  # Get the latest commit hash
+        git checkout "$LATEST_COMMIT"
+      fi
     agents:
       queue: "default-queue"
 
