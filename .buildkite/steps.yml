@@ -25,12 +25,12 @@ steps:
       fi
 
       # Check for changes in the 'tests' folder
-      if ! git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
-        echo "Changes detected in $FOLDER:"
+      if ! git diff --quiet HEAD~1 HEAD -- "tests"; then
+        echo "Changes detected in tests:"
         # Print the list of changed files
-        git diff --name-only HEAD~1 HEAD -- "$FOLDER"
+        git diff --name-only HEAD~1 HEAD -- "tests"
         # Optionally, print the diff content for each changed file
-        # for file in $(git diff --name-only HEAD~1 HEAD -- "$FOLDER"); do
+        # for file in $(git diff --name-only HEAD~1 HEAD -- "tests"); do
         #   echo "------ $file ------"
         #   git show HEAD:$file
         #   echo ""
@@ -38,7 +38,7 @@ steps:
         # Exit with error to prevent further execution if needed
         exit 1
       else
-        echo "No changes in $FOLDER"
+        echo "No changes in tests"
         exit 0
       fi
 
