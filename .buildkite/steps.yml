@@ -19,8 +19,8 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER="tests"
-      if [ ! -d "tests" ]; then
+      FOLDER="tests";
+      if [ ! -d ${FOLDER} ]; then
         echo "Error: tests does not exist or is not a directory."
         exit 1
       fi
@@ -30,9 +30,9 @@ steps:
         echo "No changes in tests between $(git rev-parse --abbrev-ref HEAD) and main"
         exit 0
       else
-        echo "Changes detected in tests between $(git rev-parse --abbrev-ref HEAD) and main"
+        echo "Changes detected in tests between ${CURRENT_BRANCH} and main"
         # List all files changed within the folder between the current branch and main
-        CHANGED_FILES=$(git diff --name-only "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests")
+        CHANGED_FILES=$(git diff --name-only "main...${CURRENT_BRANCH} " -- "tests")
         # Loop through each changed file and print its content
         for file in $(git diff --name-only "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests"); do
           echo "Changed file: ${file}"
