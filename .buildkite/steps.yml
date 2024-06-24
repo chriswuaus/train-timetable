@@ -1,9 +1,9 @@
 steps:
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER=".buildkite" # Replace this with your actual folder path
-      if [ -z "$FOLDER" ]; then
-        echo "Error: FOLDER is not set."
+      FOLDER=".buildkite"  # Replace this with your actual folder path
+      if [ ! -d "$FOLDER" ]; then
+        echo "Error: $FOLDER does not exist or is not a directory."
         exit 1
       fi
 
