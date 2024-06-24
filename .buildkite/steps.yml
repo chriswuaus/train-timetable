@@ -22,16 +22,16 @@ steps:
       FOLDER='tests'  # Replace this with your actual folder path
       echo "FOLDER is set to: $FOLDER"
 
-      if [ ! -d "$FOLDER" ]; then
-        echo "Error: $FOLDER does not exist or is not a directory."
+      if [ ! -d "tests" ]; then
+        echo "Error: tests does not exist or is not a directory."
         exit 1
       fi
 
-      if git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
-        echo "No changes in $FOLDER"
+      if git diff --quiet HEAD~1 HEAD -- "tests"; then
+        echo "No changes in tests"
         exit 0
       else
-        echo "Changes detected in $FOLDER"
+        echo "Changes detected in tests"
         # You can add additional commands to handle changes here
       fi
 
