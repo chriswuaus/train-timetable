@@ -1,11 +1,11 @@
 steps:
   - label: ":pipeline: Echo provided environment variable"
     command: |
-      if [ -z "$MY_VARIABLE" ]; then
-        echo "Error: MY_VARIABLE is not provided."
+      if [ -z "$ENV" ]; then
+        echo "Error: ENV is not provided."
         exit 1
       else
-        echo "The value of MY_VARIABLE is: $MY_VARIABLE"
+        echo "The value of ENV is: $MY_VARIABLE"
       fi
     env:
       MY_VARIABLE: "${MY_VARIABLE}"
