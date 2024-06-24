@@ -19,7 +19,7 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER:"tests"  # Replace this with your actual folder path
+      FOLDER='tests'  # Replace this with your actual folder path
       echo "FOLDER is set to: $FOLDER"
 
       if [ ! -d "$FOLDER" ]; then
