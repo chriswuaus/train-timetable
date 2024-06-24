@@ -2,7 +2,7 @@ steps:
   - label: ":pipeline: Checkout repository"
     command: "git clone $BUILDKITE_REPO $BUILDKITE_BUILD_CHECKOUT_PATH && cd $BUILDKITE_BUILD_CHECKOUT_PATH && git checkout $BUILDKITE_COMMIT"
     agents:
-      queue: "default"
+      queue: "default-queue"
 
   - label: ":pipeline: Check for changes in folder"
     command: |
