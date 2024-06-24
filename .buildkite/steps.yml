@@ -26,7 +26,7 @@ steps:
       fi
 
       CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      if git diff --quiet "main...${CURRENT_BRANCH} -- "tests"; then
+      if git diff --quiet "main...${CURRENT_BRANCH}" -- "tests"; then
         echo "No changes in tests between $(git rev-parse --abbrev-ref HEAD) and main"
         exit 0
       else
@@ -34,7 +34,7 @@ steps:
         # List all files changed within the folder between the current branch and main
         CHANGED_FILES=$(git diff --name-only "main...${CURRENT_BRANCH}" -- "tests")
         # Loop through each changed file and print its content
-        for file in $(git diff --name-only "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests"); do
+        for file in ${CHANGED_FILES}; do
           echo "Changed file: ${file}"
           echo "-----------------"
           cat "$file"  # Print the content of the changed file
