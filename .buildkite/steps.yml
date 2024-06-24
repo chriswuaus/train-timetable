@@ -1,5 +1,4 @@
 steps:
-  steps:
   - label: ":pipeline: Check if directory exists and clone repository"
     command: |
       DIRECTORY_PATH=${BUILDKITE_BUILD_CHECKOUT_PATH}
