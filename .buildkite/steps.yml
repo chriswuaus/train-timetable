@@ -8,7 +8,7 @@ steps:
         echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} already exists."
       else
         echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} does not exist. Cloning repository..."
-        git clone "${BUILDKITE_REPO} ${BUILDKITE_BUILD_CHECKOUT_PATH}
+        git clone ${BUILDKITE_REPO} ${BUILDKITE_BUILD_CHECKOUT_PATH}
         cd ${BUILDKITE_BUILD_CHECKOUT_PATH}
         LATEST_COMMIT=$(git rev-parse HEAD)  # Get the latest commit hash
         git checkout "$LATEST_COMMIT"
