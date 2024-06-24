@@ -19,7 +19,7 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER="tests"
+      FOLDER="tests";
       if [ ! -d ${FOLDER} ]; then
         echo "Error: tests does not exist or is not a directory."
         exit 1
