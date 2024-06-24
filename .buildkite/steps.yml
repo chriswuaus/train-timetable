@@ -35,7 +35,7 @@ steps:
         CHANGED_FILES=$(git diff --name-only "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests")
         # Loop through each changed file and print its content
         for file in $(git diff --name-only "main...$(git rev-parse --abbrev-ref HEAD)" -- "tests"); do
-          echo "Changed file: $file"
+          echo "Changed file: ${file}"
           echo "-----------------"
           cat "$file"  # Print the content of the changed file
           echo ""
