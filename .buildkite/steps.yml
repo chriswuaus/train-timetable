@@ -4,35 +4,41 @@ steps:
       DIRECTORY_PATH=${BUILDKITE_BUILD_CHECKOUT_PATH}
       REPO_URL=${BUILDKITE_REPO}
       
-      if [ -d ${BUILDKITE_BUILD_CHECKOUT_PATH} ]; then
-        echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} already exists."
+      echo "Checkout path: ${DIRECTORY_PATH}"
+      echo "Repository URL: ${REPO_URL}"
+      
+      if [ -d "${DIRECTORY_PATH}" ]; then
+        echo "Directory ${DIRECTORY_PATH} already exists."
       else
-        echo "Directory ${BUILDKITE_BUILD_CHECKOUT_PATH} does not exist. Cloning repository..."
-        git clone ${BUILDKITE_REPO} ${BUILDKITE_BUILD_CHECKOUT_PATH}
-        cd ${BUILDKITE_BUILD_CHECKOUT_PATH}
+        echo "Directory ${DIRECTORY_PATH} does not exist. Cloning repository..."
+        git clone "${REPO_URL}" "${DIRECTORY_PATH}"
+        cd "${DIRECTORY_PATH}"
         LATEST_COMMIT=$(git rev-parse HEAD)  # Get the latest commit hash
         git checkout "$LATEST_COMMIT"
       fi
     agents:
       queue: "default-queue"
 
-
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER="tests";
-      if [ ! -d ${FOLDER} ]; then
-        echo "Error: tests does not exist or is not a directory."
+      FOLDER="tests"
+      echo "Folder to check: ${FOLDER}"
+      
+      if [ ! -d "${FOLDER}" ]; then
+        echo "Error: ${FOLDER} does not exist or is not a directory."
         exit 1
       fi
 
       CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-      if git diff --quiet "main...${CURRENT_BRANCH}" -- "tests"; then
-        echo "No changes in tests between $(git rev-parse --abbrev-ref HEAD) and main"
+      echo "Current branch: ${CURRENT_BRANCH}"
+      
+      if git diff --quiet "main...${CURRENT_BRANCH}" -- "${FOLDER}"; then
+        echo "No changes in ${FOLDER} between ${CURRENT_BRANCH} and main"
         exit 0
       else
-        echo "Changes detected in tests between ${CURRENT_BRANCH} and main"
+        echo "Changes detected in ${FOLDER} between ${CURRENT_BRANCH} and main"
         # List all files changed within the folder between the current branch and main
-        CHANGED_FILES=$(git diff --name-only "main...${CURRENT_BRANCH}" -- "tests")
+        CHANGED_FILES=$(git diff --name-only "main...${CURRENT_BRANCH}" -- "${FOLDER}")
         # Loop through each changed file and print its content
         for file in ${CHANGED_FILES}; do
           echo "Changed file: ${file}"
