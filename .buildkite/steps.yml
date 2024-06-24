@@ -19,8 +19,8 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-      if [ ! -d "$FOLDER" ]; then
-        echo "Error: $FOLDER does not exist or is not a directory."
+      if [ ! -d "tests" ]; then
+        echo "Error: tests does not exist or is not a directory."
         exit 1
       fi
 
