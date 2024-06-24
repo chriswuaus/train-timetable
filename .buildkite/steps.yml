@@ -19,16 +19,27 @@ steps:
 
   - label: ":pipeline: Check for changes in folder"
     command: |
-       if [ ! -d "tests" ]; then
+      FOLDER="tests"
+      if [ ! -d "tests" ]; then
         echo "Error: tests does not exist or is not a directory."
         exit 1
+      fi
 
       if git diff --quiet HEAD~1 HEAD -- "tests"; then
-        echo "No changes in $FOLDER"
+        echo "No changes in tests"
         exit 0
       else
         echo "Changes detected in tests"
-      fi 
+        # List all files changed within the folder between HEAD~1 and HEAD
+        CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD -- "tests")
+        # Loop through each changed file and print its content
+        for file in $CHANGED_FILES; do
+          echo "Changed file: $file"
+          echo "-----------------"
+          cat "$file"  # Print the content of the changed file
+          echo ""
+        done
+      fi
 
   - label: ":pipeline: Echo provided environment variable"
     command: |
