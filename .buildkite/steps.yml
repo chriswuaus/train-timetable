@@ -1,7 +1,7 @@
 steps:
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER="path/to/your/folder"
+      FOLDER=".buildkite"
       if git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
         echo "No changes in $FOLDER"
         exit 0
@@ -9,7 +9,7 @@ steps:
         echo "Changes detected in $FOLDER"
         # You can add additional commands to handle changes here
       fi
-      
+
   - label: ":pipeline: Echo provided environment variable"
     command: |
       if [ -z "$ENV" ]; then
