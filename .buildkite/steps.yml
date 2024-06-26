@@ -1,13 +1,51 @@
 steps:
+  - label: ":pipeline: Check if directory exists and clone repository"
+    command: |
+      DIRECTORY_PATH=${BUILDKITE_BUILD_CHECKOUT_PATH}
+      REPO_URL=${BUILDKITE_REPO}
+      
+      echo "Checkout path: ${DIRECTORY_PATH}"
+      echo "Repository URL: ${REPO_URL}"
+      
+      if [ -d "${DIRECTORY_PATH}" ]; then
+        echo "Directory ${DIRECTORY_PATH} already exists."
+      else
+        echo "Directory ${DIRECTORY_PATH} does not exist. Cloning repository..."
+        git clone "${REPO_URL}" "${DIRECTORY_PATH}"
+        cd "${DIRECTORY_PATH}"
+        LATEST_COMMIT=$(git rev-parse HEAD)  # Get the latest commit hash
+        git checkout "$LATEST_COMMIT"
+      fi
+    agents:
+      queue: "default-queue"
+
   - label: ":pipeline: Check for changes in folder"
     command: |
-      FOLDER=".buildkite"
-      if git diff --quiet HEAD~1 HEAD -- "$FOLDER"; then
-        echo "No changes in $FOLDER"
+      FOLDER="tests"
+      echo "Folder to check: ${FOLDER}"
+      
+      if [ ! -d "${FOLDER}" ]; then
+        echo "Error: ${FOLDER} does not exist or is not a directory."
+        exit 1
+      fi
+
+      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+      echo "Current branch: ${CURRENT_BRANCH}"
+      
+      if git diff --quiet "main...${CURRENT_BRANCH}" -- "${FOLDER}"; then
+        echo "No changes in ${FOLDER} between ${CURRENT_BRANCH} and main"
         exit 0
       else
-        echo "Changes detected in $FOLDER"
-        # You can add additional commands to handle changes here
+        echo "Changes detected in ${FOLDER} between ${CURRENT_BRANCH} and main"
+        # List all files changed within the folder between the current branch and main
+        CHANGED_FILES=$(git diff --name-only "main...${CURRENT_BRANCH}" -- "${FOLDER}")
+        # Loop through each changed file and print its content
+        for file in ${CHANGED_FILES}; do
+          echo "Changed file: ${file}"
+          echo "-----------------"
+          cat "$file"  # Print the content of the changed file
+          echo ""
+        done
       fi
 
   - label: ":pipeline: Echo provided environment variable"
